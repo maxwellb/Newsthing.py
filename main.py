@@ -28,7 +28,7 @@ parser.add_argument("-c", "--repeat",
 parser.add_argument("-r", "--refresh",
                     help="Set to retrieve new messages from the server",
                     default=False,
-                    action=argparse.BooleanOptionalAction)
+                    action="store_true")
 parser.add_argument("--debug",
                     help="Set the log level to DEBUG",
                     action="store_const",
