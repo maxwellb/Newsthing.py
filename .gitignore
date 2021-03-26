@@ -1,0 +1,7 @@
+venv
+**/*.db
+**/*.db-shm
+**/*.db-wal
+.idea
+__pycache__
+scratch.ipynb
