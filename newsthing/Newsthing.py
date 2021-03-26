@@ -3,6 +3,7 @@ from nntplib import NNTP_SSL as NNTP
 from .Datathing import Datathing, SQLite as DatathingImpl
 import dateutil.parser
 import logging
+import ssl
 
 
 # noinspection SqlResolve
@@ -41,7 +42,12 @@ class Newsthing:
         else:
             reconnect = True
         if reconnect:
-            self._news = NNTP(host=self._server, port=port, usenetrc=True)
+            ssl_ctx = ssl.create_default_context()
+            ssl_ctx.set_ciphers("HIGH:!DH")
+            self._news = NNTP(host=self._server,
+                              port=port,
+                              ssl_context=ssl_ctx,
+                              usenetrc=True)
         return self._news
     
     def close(self) -> str:

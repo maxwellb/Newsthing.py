@@ -47,6 +47,16 @@ class SQLite(Datathing):
         self._db = sqlite3.connect(database)
         self._db.execute("pragma journal_mode=wal")
         self._server = server
+        self._db.execute(
+            f"""
+            create table if not exists main.newsgroups (
+                server text,
+                newsgroup text,
+                
+                primary key (server, newsgroup)
+            )
+            """
+        )
     
     def _group_table_name(self, group):
         return f"{self._server}.{group}".replace(".", "_")
@@ -92,7 +102,7 @@ class SQLite(Datathing):
                                "is not ", "is ", "like ", "glob "]:
                         if wharg.startswith(op):
                             wheres.append(f" [{col_name}] {op} ? ")
-                            whargs.append(wharg.removeprefix(op))
+                            whargs.append(wharg[len(op):])
                             applied = True
                             break
                     if type(wharg) is tuple:
