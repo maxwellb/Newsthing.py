@@ -15,15 +15,18 @@ parser.add_argument("-s", "--server",
                     required=True)
 parser.add_argument("-p", "--port",
                     help="The news port",
+                    type=int,
                     default=443)
 parser.add_argument("group",
                     help="The newsgroup")
 parser.add_argument("-b", "--batch-size",
                     help="The max. number of articles to retrieve in one batch",
+                    type=int,
                     default=50000)
 parser.add_argument("-c", "--repeat",
                     help="The max. number of batches to run",
                     dest="repeat_count",
+                    type=int,
                     default=1)
 parser.add_argument("-r", "--refresh",
                     help="Set to retrieve new messages from the server",
