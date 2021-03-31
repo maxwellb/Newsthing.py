@@ -6,6 +6,12 @@ import logging
 import ssl
 
 
+def restore_sanity(value):
+    return value.replace('\udce9', '\xe9') \
+                .replace('\udce4', '\xe4') \
+                .replace('\udcfc', '\xfc')
+
+
 # noinspection SqlResolve
 class Newsthing:
     _dt: Datathing = None
@@ -93,6 +99,10 @@ class Newsthing:
         batch = {}
         for hdr in header_names:
             resp, values = news.xhdr(hdr, f"{min_article}-{max_article}")
+            if hdr == "Subject":
+                values = map(
+                    lambda x: (x[0], restore_sanity(x[1]),),
+                    values)
             if hdr == "Date":
                 values = map(
                     lambda x: (x[0], dateutil.parser.parse(x[1]).isoformat(),),
