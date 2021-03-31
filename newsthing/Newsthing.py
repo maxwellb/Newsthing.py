@@ -7,9 +7,7 @@ import ssl
 
 
 def restore_sanity(value):
-    return value.replace('\udce9', '\xe9') \
-                .replace('\udce4', '\xe4') \
-                .replace('\udcfc', '\xfc')
+    return value.encode('utf-8', 'surrogateescape').decode('latin-1')
 
 
 # noinspection SqlResolve
